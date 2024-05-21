@@ -59,13 +59,16 @@ jobs:
 
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         env:
-          DATABASE_URL: mysql://root:root@127.0.0.1:3306/symfonyja?serverVersion=8.0.32&charset=utf8mb4
+          DATABASE_URL: mysql://root:root@127.0.0.1:3306/symfilm?serverVersion=8.0.32&charset=utf8mb4
+          COMPOSER_PROCESS_TIMEOUT: 0
+          COMPOSER_NO_INTERACTION: 1
+          COMPOSER_NO_AUDIT: 1
         run: |
-          echo "Running PHPUnit tests..."
-          if [ -f vendor/bin/phpunit ]; then
-            vendor/bin/phpunit
-          else
-            echo "PHPUnit is not installed. Please check your dependencies."
-            exit 2
-          fi
-        shell: bash
+            echo "Running PHPUnit tests..."
+            if [ -f vendor/bin/phpunit ]; then
+              vendor/bin/phpunit
+            else
+              echo "PHPUnit is not installed. Please check your dependencies."
+              exit 2
+            fi
+          shell: bash
