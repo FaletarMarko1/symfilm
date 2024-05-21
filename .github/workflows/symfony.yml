@@ -50,10 +50,12 @@ jobs:
       - name: Install Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist --ignore-platform-reqs
 
-      - name: Create Database
+      - name: Wait for MySQL to be ready
         run: |
-          mkdir -p data
-          touch data/database.sqlite
+          until mysqladmin ping --host=127.0.0.1 --user=root --password=root --silent; do
+            echo 'Waiting for MySQL...'
+            sleep 3
+          done
 
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         env:
