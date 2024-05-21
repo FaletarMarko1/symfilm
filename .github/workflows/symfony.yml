@@ -51,11 +51,7 @@ jobs:
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist --ignore-platform-reqs
 
       - name: Wait for MySQL to be ready
-        run: |
-          until mysqladmin ping --host=127.0.0.1 --user=root --password=root --silent; do
-            echo 'Waiting for MySQL...'
-            sleep 3
-          done
+        run: mysqladmin ping --host=127.0.0.1 --user=root --password=root --silent;
 
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         env:
