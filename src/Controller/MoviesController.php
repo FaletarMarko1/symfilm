@@ -55,7 +55,7 @@ class MoviesController extends AbstractController
                    return new Response($e->getMessage());
                }
 
-               $movie->setImagePath('/uploads/' . $newFileName);
+               $newMovie->setImagePath('/uploads/' . $newFileName);
            }
 
            $this->em->persist($newMovie);
@@ -117,6 +117,15 @@ class MoviesController extends AbstractController
             'movie' => $movie,
             'form' => $form->createView()
         ]);
+    }
+
+    #[Route('/movies/delete/{id}', name: 'delete_movie', methods: ['GET', 'DELETE'])]
+    public function delete($id): Response{
+        $movie = $this->movieRepository->find($id);
+        $this->em->remove($movie);
+        $this->em->flush();
+
+        return $this->redirectToRoute('movies');
     }
 
     #[Route('/movies/{id}', name: 'show', methods: ['GET'])]
